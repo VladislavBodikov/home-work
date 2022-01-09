@@ -2,9 +2,7 @@ package com.sbrf.reboot.repository.impl;
 
 import com.sbrf.reboot.repository.AccountRepository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,9 +38,9 @@ public class FileAccountRepository implements AccountRepository {
         return findNumbersByClientId(clientsId, numbers, clientId);
     }
 
-    private String readFileToString(String file) throws IOException {
+    private String readFileToString(String pathToFile) throws IOException {
         StringBuilder sb = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(pathToRepo));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(pathToFile));
         while (bufferedReader.ready()) {
             sb.append(bufferedReader.readLine()).append("\n");
         }
@@ -59,6 +57,21 @@ public class FileAccountRepository implements AccountRepository {
             }
         }
         return numbersForClientId;
+    }
+
+    public void updateAccountNumber(Long clientId, Long previousNumber, Long newNumber) throws IOException {
+        String strClient = String.format("\"clientId\": %d,", clientId);
+        String strNumber = String.format("\"number\": %d", previousNumber);
+        String findStr = "    " + strClient + "\n" + "    " + strNumber;
+        String replaceStr = "    " + strClient + "\n" + "    " + String.format("\"number\": %d", newNumber);
+
+        String data = readFileToString(pathToRepo);
+        data = data.replace(findStr, replaceStr);
+
+        FileWriter fw = new FileWriter(new File(pathToRepo), false);
+        fw.write(data);
+        fw.flush();
+        fw.close();
     }
 
 }

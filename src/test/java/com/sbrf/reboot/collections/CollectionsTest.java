@@ -112,5 +112,49 @@ public class CollectionsTest {
         assertEquals(3, bookshelf.size());
     }
 
+    /*
+    * Задача 5+.
+    * Требуется хранить список контактов, у каждого контакта (ФИО) может быть сколько угодно номеров
+    * Периодически трубется получать список номеров у любого из контактов, обращаясь по имени контакта
+    * Имена контактов должны хранится в отсортированном по алфавиту (лексографически)
+    *
+    * Вопрос.
+    * Какую коллекцию из Collections framework вы предпочтете для организации списка контактов.
+    *
+    * Ответ.
+    * Так как имена требуется хранить в отсортированном виде,
+    * а при обращении по имени нужно получить список номеров этого контакта (нет смысла в повторах номеров)
+    * то оправданно использовать TreeMap<String (ФИО), Set<String> (номера)>
+    *
+    * */
+    @Test
+    public void addPhoneBook(){
+
+        class Contact{
+            String name;
+            Set<String> numbers;
+            Contact(String name){
+                this.name = name;
+            }
+        }
+        // init contacts
+        Contact contact1 = new Contact("Vlad");
+        Set<String> numContact1 = new HashSet<>();
+        numContact1.add("+79998887766");
+        numContact1.add("+78887776655");
+        contact1.numbers = numContact1;
+
+        Contact contact2 = new Contact("Alex");
+        Set<String> numContact2 = new HashSet<>();
+        numContact2.add("+77776665544");
+        numContact2.add("+76665554433");
+        contact2.numbers = numContact2;
+        // save contacts to phoneBook
+        Map<String,Set<String>> phoneBook = new TreeMap<>();
+        phoneBook.put(contact1.name,contact1.numbers);
+        phoneBook.put(contact2.name,contact2.numbers);
+
+        assertEquals(2,phoneBook.size());
+    }
 
 }

@@ -2,7 +2,7 @@ package com.sbrf.reboot.collections;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,9 +28,19 @@ public class CollectionsTest {
      */
     @Test
     public void addStudentToRating() {
+        // Вопрос.
+        //     * Какую коллекцию из Collections framework вы предпочтете для текущего хранения и использования списка студентов?
 
-        List<String> students = null;
-
+        // Ответ: в задаче требуется вставить элемент в начало коллекции,
+        // для добавления элемента по индексу потребуется метод вставки по индексу, присутствующий в интерфейсе List
+        // ArrayList - работает с массивами, а для вставки элемента в начало массива - это наихудший случай,
+        // так как все остальные элементы придется смещать вправо, что займет O(n-1)
+        // В данной задаче логичнее использовать LinkedList, так как вставка в начало осуществляется за O(1)
+        List<String> students = new LinkedList<>();
+        students.add("Иванов");
+        students.add("Петров");
+        students.add("Сидоров");
+        students.add(0,"Козлов");
         //...
 
         assertEquals(4, students.size());
@@ -48,9 +58,14 @@ public class CollectionsTest {
      */
     @Test
     public void addMoneyToBox() {
-
-        List<Integer> moneyBox = null;
-
+        //* Вопрос.
+        //     * Какую коллекцию из Collections framework вы предпочтете использовать для хранения монет в боксе.
+        // Ответ: Так как монеты уникальные, разумно использовать интерфейс Set,
+        // а так как порядок не важен, для скорости работы будет оптимально использовать реализацию HashSet
+        Set<Integer> moneyBox = new HashSet<>();
+        for (int i = 0; i < 10; i++){
+            moneyBox.add(i);
+        }
         //...
 
         assertEquals(10, moneyBox.size());
@@ -68,11 +83,30 @@ public class CollectionsTest {
      */
     @Test
     public void addBookToShelf() {
+        //* Вопрос.
+        //     * Какую коллекцию из Collections framework вы предпочтете использовать для хранения книг.
+        // Ответ:
+        // Если в рамках этой задачи предположить что к книгам будут обращаться по их месту на полке,
+        // то нас удовлетворит ArrayList
+        // Если же поставить задачу что к книгам будут обращаться по названию,
+        // то логичнее использовать структуру Map<"Имя книги",Book>
+
         class Book {
+            String name;
+            Book(String name){
+                this.name = name;
+            }
         }
-
-        List<Book> bookshelf = null;
-
+        Book book1 = new Book("Преступление и наказание");
+        Book book2 = new Book("Thinking in Java");
+        Book book3 = new Book("Техническая термодинамика");
+        // option 1
+        //List<Book> bookshelf = Arrays.asList(book1,book2,book3);
+        // option 2
+        Map<String,Book> bookshelf = new HashMap<>();
+        bookshelf.put(book1.name,book1);
+        bookshelf.put(book2.name,book2);
+        bookshelf.put(book3.name,book3);
         //...
 
         assertEquals(3, bookshelf.size());

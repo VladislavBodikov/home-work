@@ -100,13 +100,8 @@ public class CollectionsTest {
         Book book1 = new Book("Преступление и наказание");
         Book book2 = new Book("Thinking in Java");
         Book book3 = new Book("Техническая термодинамика");
-        // option 1
-        //List<Book> bookshelf = Arrays.asList(book1,book2,book3);
-        // option 2
-        Map<String,Book> bookshelf = new HashMap<>();
-        bookshelf.put(book1.name,book1);
-        bookshelf.put(book2.name,book2);
-        bookshelf.put(book3.name,book3);
+
+        List<Book> bookshelf = Arrays.asList(book1,book2,book3);
         //...
 
         assertEquals(3, bookshelf.size());

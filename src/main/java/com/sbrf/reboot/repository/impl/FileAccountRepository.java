@@ -68,10 +68,12 @@ public class FileAccountRepository implements AccountRepository {
         String data = readFileToString(pathToRepo);
         data = data.replace(findStr, replaceStr);
 
-        FileWriter fw = new FileWriter(new File(pathToRepo), false);
-        fw.write(data);
-        fw.flush();
-        fw.close();
+        try(
+            FileWriter fw = new FileWriter(new File(pathToRepo), false);
+            BufferedWriter bw = new BufferedWriter(fw);
+        ){
+            bw.write(data);
+        }
     }
 
 }

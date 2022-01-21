@@ -32,6 +32,21 @@ public class EqualsHashCodeTest {
                     && color.equals(objCar.color)
                     && releaseDate.equals(objCar.releaseDate);
         }
+        @Override
+         public int hashCode(){
+            final int base = 13;
+            int result = 1;
+            // проверки на null
+            int hashModel = (model == null) ? 0 : model.hashCode();
+            int hashColor = (color == null) ? 0 : color.hashCode();
+            int hashCalendar = (releaseDate == null) ? 0 : releaseDate.hashCode();
+            // алгоритм сложения всех полей которые используются  методе equals()
+            result = base * result + hashModel;
+            result = base * result + hashColor;
+            result = base * result + hashCalendar;
+            result = base * result + maxSpeed;
+            return result;
+        }
 
 
      }

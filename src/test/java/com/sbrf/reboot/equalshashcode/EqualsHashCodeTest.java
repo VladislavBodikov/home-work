@@ -16,12 +16,21 @@ public class EqualsHashCodeTest {
 
         @Override
         public boolean equals(Object o) {
-
             //Рефлексивность: объект должен равняться самому себе
             if (o == this)
                 return true;
-
-            return false;
+            // Проверка на null
+            if ( o == null)
+                return false;
+            // Проверка на соответствие классу
+            if (o.getClass() != this.getClass())
+                return false;
+            Car objCar = (Car) o;
+            //Симметричность: если x.equals(y) == true, то y.equals(x) == true;
+            return  maxSpeed == objCar.maxSpeed
+                    && model.equals(objCar.model)
+                    && color.equals(objCar.color)
+                    && releaseDate.equals(objCar.releaseDate);
         }
 
 

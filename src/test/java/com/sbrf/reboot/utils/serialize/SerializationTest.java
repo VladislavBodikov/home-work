@@ -1,4 +1,4 @@
-package com.sbrf.reboot.serialize;
+package com.sbrf.reboot.utils.serialize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;

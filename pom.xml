@@ -19,18 +19,21 @@
 
         <!--
             Версии зависимостей.
-
             Всегда выносите их:
             1. в секцию properties POM файла для одномодульных maven проектов
             2. в секцию properties корневого POM файла для многомодульных maven проектов (они будут наследоваться в подмодулях)
             3. в BOM файл если зависимость используется в разных maven проектах
-
             https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms
         -->
         <lombok.version>1.18.20</lombok.version>
         <junit-jupiter.version>5.7.2</junit-jupiter.version>
         <mockito-core.version>3.11.2</mockito-core.version>
+
+        <jackson-databind.version>2.12.4</jackson-databind.version>
+        <jackson-dataformat-xml.version>2.11.1</jackson-dataformat-xml.version>
+
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+
     </properties>
 
     <dependencies>
@@ -51,6 +54,16 @@
             <artifactId>mockito-core</artifactId>
             <version>${mockito-core.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson-dataformat-xml.version}</version>
         </dependency>
     </dependencies>
 

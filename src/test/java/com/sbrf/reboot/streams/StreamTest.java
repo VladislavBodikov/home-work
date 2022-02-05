@@ -2,6 +2,7 @@ package com.sbrf.reboot.streams;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -38,7 +39,7 @@ public class StreamTest {
 
         List<Integer> expectedIntegers = Arrays.asList(6, 8);
 
-        List<Integer> actualIntegers = integers.stream().filter((x)-> x % 2 == 0).collect(Collectors.toList()); //add code here
+        List<Integer> actualIntegers = integers.stream().filter((x) -> x % 2 == 0).collect(Collectors.toList()); //add code here
 
         assertEquals(expectedIntegers, actualIntegers);
 
@@ -74,7 +75,7 @@ public class StreamTest {
         );
 
         List<Book> actualBooks = books.stream()
-                .filter((book)->book.author.equals("Maria"))
+                .filter((book) -> book.author.equals("Maria"))
                 .sorted(Comparator.comparing(o -> o.price))
                 .collect(Collectors.toList()); //add code here
 
@@ -93,9 +94,76 @@ public class StreamTest {
 
         List<String> expectedContracts = Arrays.asList("M-NCC-1-CH", "M-NCC-2-US", "M-NCC-3-NH");
 
-        List<String> actualContracts = contracts.stream().map((s)-> "M-" + s).collect(Collectors.toList()); //add code here
+        List<String> actualContracts = contracts.stream().map((s) -> "M-" + s).collect(Collectors.toList()); //add code here
 
         assertEquals(expectedContracts, actualContracts);
+
+    }
+
+    @Test
+    public void allBooksPriceTest() {
+        List<Book> books = Arrays.asList(
+                new Book("Trees", "Maria", new BigDecimal(900)),
+                new Book("Animals", "Tom", new BigDecimal(500)),
+                new Book("Cars", "John", new BigDecimal(200)),
+                new Book("Birds", "Maria", new BigDecimal(100)),
+                new Book("Flowers", "Tom", new BigDecimal(700))
+
+        );
+        // 900 + 500 + 200 + 100 + 700 = 2400
+        double sumAllPrice = books.stream().mapToDouble((o1) -> o1.price.doubleValue()).sum();
+
+        assertEquals(sumAllPrice, 2400);
+    }
+
+    @Test
+    public void getCollectionOfBookNamesTest() {
+        List<Book> books = Arrays.asList(
+                new Book("Trees", "Maria", new BigDecimal(900)),
+                new Book("Animals", "Tom", new BigDecimal(500)),
+                new Book("Cars", "John", new BigDecimal(200)),
+                new Book("Birds", "Maria", new BigDecimal(100)),
+                new Book("Flowers", "Tom", new BigDecimal(700))
+
+        );
+        List<String> expectedNames = Arrays.asList(
+                "Trees", "Animals", "Cars", "Birds", "Flowers"
+        );
+
+        List<String> actualList = books.stream().map((book -> book.name)).collect(Collectors.toList());
+
+        assertEquals(actualList, expectedNames);
+    }
+
+    @Test
+    public void getInnerListTest() {
+        // Получить имена терминалов в аэропортах, отсортированых в обратном порядке
+
+        @AllArgsConstructor
+        class Terminal {
+            String number;
+        }
+        @AllArgsConstructor
+        class Airport {
+            String name;
+            @Getter
+            List<Terminal> terminals;
+        }
+        List<Airport> airports = Arrays.asList(
+                new Airport("VKO", Arrays.asList(new Terminal("A1"), new Terminal("A2"))),
+                new Airport("DME", Arrays.asList(new Terminal("B1"), new Terminal("B2"))),
+                new Airport("KJA", Arrays.asList(new Terminal("C1"), new Terminal("C2")))
+        );
+        List<String> expectedTerminalNames = Arrays.asList(
+                "C2", "C1", "B2", "B1", "A2", "A1"
+        );
+        List<String> actualTerminalNames = airports.stream()
+                .flatMap(airport -> airport.getTerminals().stream())
+                .map((terminal) -> terminal.number)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+
+        assertEquals(expectedTerminalNames, actualTerminalNames);
 
     }
 

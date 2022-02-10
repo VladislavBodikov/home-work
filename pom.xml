@@ -33,6 +33,7 @@
         <jackson-dataformat-xml.version>2.11.1</jackson-dataformat-xml.version>
 
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <h2.version>1.4.199</h2.version>
 
     </properties>
 
@@ -64,6 +65,12 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>${jackson-dataformat-xml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

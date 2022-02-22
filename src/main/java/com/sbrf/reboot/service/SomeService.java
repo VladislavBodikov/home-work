@@ -2,6 +2,7 @@ package com.sbrf.reboot.service;
 
 import java.time.Duration;
 import java.util.concurrent.*;
+import java.util.function.Supplier;
 
 public class SomeService {
 
@@ -21,11 +22,14 @@ public class SomeService {
             public String call() throws Exception {
 
                 // Реализуйте отправку отчета используя CompletableFuture
-                String reportResult = reportService.sendReport("Отправляю отчет");
+                ExecutorService completeExecutor = Executors.newSingleThreadExecutor();
+                CompletableFuture<String> completableFuture =
+                        CompletableFuture.supplyAsync(()->reportService.sendReport("Отправляю отчет"),completeExecutor);
+
 
                 //какой то код..
                 Thread.sleep(Duration.ofSeconds(3).toMillis());
-
+                String reportResult = String.valueOf(completableFuture.get());
                 if (reportResult.equals("SUCCESS")) {
                     System.out.println("Отчет отправлен успешно");
                 }

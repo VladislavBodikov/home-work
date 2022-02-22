@@ -15,7 +15,8 @@ public class TaskExecutorService {
     }
 
     public void execute(Task task) {
-        service.execute(task);
+        for (int i = numberOfThreads; i > 0; i--)
+            service.execute(task);
     }
 
     public void shutdown() {

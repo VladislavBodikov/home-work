@@ -35,4 +35,28 @@ public class TaskExecutorServiceTest {
 
         taskExecutorService.shutdown();
     }
+    @Test
+    public void successRunMaximumThreadTasks() throws InterruptedException {
+
+        int countOfThreads = Runtime.getRuntime().availableProcessors();
+
+        Task task = Mockito.mock(Task.class);
+        CountDownLatch latch = new CountDownLatch(countOfThreads);
+
+        TaskExecutorService taskExecutorService = new TaskExecutorService(countOfThreads);
+
+        doAnswer((e -> {
+            latch.countDown();
+            return null;
+        })).when(task).run();
+
+        taskExecutorService.execute(task);
+
+        latch.await();
+
+        assertEquals(0, latch.getCount());
+        verify(task, times(countOfThreads)).run();
+
+        taskExecutorService.shutdown();
+    }
 }

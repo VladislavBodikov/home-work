@@ -33,7 +33,7 @@ public class SomeService {
                 if (reportResult.equals("SUCCESS")) {
                     System.out.println("Отчет отправлен успешно");
                 }
-
+                completeExecutor.shutdown();
                 return "some return";
             }
         });
